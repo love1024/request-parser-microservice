@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Starter kit for javascript development",
   "scripts": {
-      "start":"npm-run-all --parallel security-check open:src lint:watch test:watch",
+      "start":"npm run open:src",
       "security-check":"nsp check",
       "open:src": "babel-node server/server.js",
       "lint":"esw webpack.config.* src server --color",
@@ -14,7 +14,12 @@
   "author": "Lovepreet",
   "license": "MIT",
   "dependencies": {
-    "whatwg-fetch": "1.0.0"
+    "whatwg-fetch": "1.0.0",
+    "babel-cli": "6.16.0",
+    "babel-core": "6.17.0",
+    "babel-loader": "6.2.5",
+    "babel-preset-latest": "6.16.0",
+    "babel-register": "6.16.3"
   },
   "devDependencies": {
     "babel-cli": "6.16.0",

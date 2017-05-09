@@ -1,27 +1,13 @@
-import express from 'express';
-import path from 'path';
-import open from 'open';
-import webpack from 'webpack';
-import config from '../webpack.config.dev';
+import http from 'http';
 
 const port = 2500;
-const app = express();
-const compiler = webpack(config);
-/* eslint-disable no-console*/
 
-app.use(require('webpack-dev-middleware')(compiler,{
-    noInfo:true,
-    publicPath:config.output.publicPath
-}));
+let server = http.createServer(function(req,res) {
+    let ip =  req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let language = req.headers["accept-language"].split(";")[0];
+    let software = req.headers['user-agent'].match(/\(([^)]+)\)/)[1];
 
-app.get('/',function(req,res) {
-    res.sendFile(path.join(__dirname,'../src/index.html'));
+    res.end(JSON.stringify({"ipaddress":ip,"language":language,"software":software}));
 });
 
-app.listen(port,function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        open('http://localhost:'+port);
-    }
-})
+server.listen(process.env.PORT || port);
